@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjt.movie.mapper.TMovieMapper">
+
+    <resultMap id="BaseResultMap" type="com.xjt.movie.entity.TMovie">
+        <!--@Table t_movie-->
+        <result property="movieId" column="movie_id" jdbcType="INTEGER"/>
+        <result property="movieCnName" column="movie_cn_name" jdbcType="VARCHAR"/>
+        <result property="movieFgName" column="movie_fg_name" jdbcType="VARCHAR"/>
+        <result property="movieActor" column="movie_actor" jdbcType="VARCHAR"/>
+        <result property="movieDirector" column="movie_director" jdbcType="VARCHAR"/>
+        <result property="movieDetail" column="movie_detail" jdbcType="VARCHAR"/>
+        <result property="movieDuration" column="movie_duration" jdbcType="VARCHAR"/>
+        <result property="movieCategory" column="movie_category" jdbcType="VARCHAR"/>
+        <result property="movieScore" column="movie_score" jdbcType="VARCHAR"/>
+        <result property="movieBoxoffice" column="movie_boxOffice" jdbcType="VARCHAR"/>
+        <result property="movieCommentcount" column="movie_commentCount" jdbcType="VARCHAR"/>
+        <result property="moviePicture" column="movie_picture" jdbcType="VARCHAR"/>
+        <result property="movieCountry" column="movie_country" jdbcType="VARCHAR"/>
+        <result property="movieShowType" column="movie_show_type" jdbcType="INTEGER"/>
+        <result property="movieReleasedate" column="movie_releaseDate" jdbcType="VARCHAR"/>
+        <result property="movieRank" column="movie_rank" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          movie_id, movie_cn_name, movie_fg_name, movie_actor, movie_director, movie_detail, movie_duration, movie_category, movie_score, movie_boxOffice, movie_commentCount, movie_picture, movie_country, movie_show_type, movie_releaseDate, movie_rank
+        from my-javaweb-movie.t_movie
+        where movie_id = #{movieId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          movie_id, movie_cn_name, movie_fg_name, movie_actor, movie_director, movie_detail, movie_duration, movie_category, movie_score, movie_boxOffice, movie_commentCount, movie_picture, movie_country, movie_show_type, movie_releaseDate, movie_rank
+        from my-javaweb-movie.t_movie
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          movie_id, movie_cn_name, movie_fg_name, movie_actor, movie_director, movie_detail, movie_duration, movie_category, movie_score, movie_boxOffice, movie_commentCount, movie_picture, movie_country, movie_show_type, movie_releaseDate, movie_rank
+        from my-javaweb-movie.t_movie
+        <where>
+            <if test="movieId != null">
+                and movie_id = #{movieId}
+            </if>
+            <if test="movieCnName != null and movieCnName != ''">
+                and movie_cn_name = #{movieCnName}
+            </if>
+            <if test="movieFgName != null and movieFgName != ''">
+                and movie_fg_name = #{movieFgName}
+            </if>
+            <if test="movieActor != null and movieActor != ''">
+                and movie_actor = #{movieActor}
+            </if>
+            <if test="movieDirector != null and movieDirector != ''">
+                and movie_director = #{movieDirector}
+            </if>
+            <if test="movieDetail != null and movieDetail != ''">
+                and movie_detail = #{movieDetail}
+            </if>
+            <if test="movieDuration != null and movieDuration != ''">
+                and movie_duration = #{movieDuration}
+            </if>
+            <if test="movieCategory != null and movieCategory != ''">
+                and movie_category = #{movieCategory}
+            </if>
+            <if test="movieScore != null and movieScore != ''">
+                and movie_score = #{movieScore}
+            </if>
+            <if test="movieBoxoffice != null and movieBoxoffice != ''">
+                and movie_boxOffice = #{movieBoxoffice}
+            </if>
+            <if test="movieCommentcount != null and movieCommentcount != ''">
+                and movie_commentCount = #{movieCommentcount}
+            </if>
+            <if test="moviePicture != null and moviePicture != ''">
+                and movie_picture = #{moviePicture}
+            </if>
+            <if test="movieCountry != null and movieCountry != ''">
+                and movie_country = #{movieCountry}
+            </if>
+            <if test="movieShowType != null">
+                and movie_show_type = #{movieShowType}
+            </if>
+            <if test="movieReleasedate != null and movieReleasedate != ''">
+                and movie_releaseDate = #{movieReleasedate}
+            </if>
+            <if test="movieRank != null">
+                and movie_rank = #{movieRank}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="movieId" useGeneratedKeys="true">
+        insert into my-javaweb-movie.t_movie(movie_cn_name, movie_fg_name, movie_actor, movie_director, movie_detail, movie_duration, movie_category, movie_score, movie_boxOffice, movie_commentCount, movie_picture, movie_country, movie_show_type, movie_releaseDate, movie_rank)
+        values (#{movieCnName}, #{movieFgName}, #{movieActor}, #{movieDirector}, #{movieDetail}, #{movieDuration}, #{movieCategory}, #{movieScore}, #{movieBoxoffice}, #{movieCommentcount}, #{moviePicture}, #{movieCountry}, #{movieShowType}, #{movieReleasedate}, #{movieRank})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my-javaweb-movie.t_movie
+        <set>
+            <if test="movieCnName != null and movieCnName != ''">
+                movie_cn_name = #{movieCnName},
+            </if>
+            <if test="movieFgName != null and movieFgName != ''">
+                movie_fg_name = #{movieFgName},
+            </if>
+            <if test="movieActor != null and movieActor != ''">
+                movie_actor = #{movieActor},
+            </if>
+            <if test="movieDirector != null and movieDirector != ''">
+                movie_director = #{movieDirector},
+            </if>
+            <if test="movieDetail != null and movieDetail != ''">
+                movie_detail = #{movieDetail},
+            </if>
+            <if test="movieDuration != null and movieDuration != ''">
+                movie_duration = #{movieDuration},
+            </if>
+            <if test="movieCategory != null and movieCategory != ''">
+                movie_category = #{movieCategory},
+            </if>
+            <if test="movieScore != null and movieScore != ''">
+                movie_score = #{movieScore},
+            </if>
+            <if test="movieBoxoffice != null and movieBoxoffice != ''">
+                movie_boxOffice = #{movieBoxoffice},
+            </if>
+            <if test="movieCommentcount != null and movieCommentcount != ''">
+                movie_commentCount = #{movieCommentcount},
+            </if>
+            <if test="moviePicture != null and moviePicture != ''">
+                movie_picture = #{moviePicture},
+            </if>
+            <if test="movieCountry != null and movieCountry != ''">
+                movie_country = #{movieCountry},
+            </if>
+            <if test="movieShowType != null">
+                movie_show_type = #{movieShowType},
+            </if>
+            <if test="movieReleasedate != null and movieReleasedate != ''">
+                movie_releaseDate = #{movieReleasedate},
+            </if>
+            <if test="movieRank != null">
+                movie_rank = #{movieRank},
+            </if>
+        </set>
+        where movie_id = #{movieId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from my-javaweb-movie.t_movie where movie_id = #{movieId}
+    </delete>
+
+</mapper>

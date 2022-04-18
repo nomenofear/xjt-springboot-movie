@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjt.movie.mapper.TUserMapper">
+    <resultMap id="userMap" type="com.xjt.movie.entity.TUser">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="avatar" property="avatar"/>
+        <result column="salt" property="salt"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <!--角色信息-->
+        <collection property="rolesList" javaType="list" ofType="TRole">
+            <id column="role_id" property="roleId"/>
+            <result column="name" property="name"/>
+            <result column="nameZh" property="nameZh"/>
+        </collection>
+    </resultMap>
+
+    <select id="findRolesByUsername" parameterType="String" resultMap="userMap">
+      SELECT
+          u.`user_id`,
+          u.`username`,
+          u.`password`,
+          u.`email`,
+          u.`avatar`,
+          u.`salt`,
+          u.`is_deleted`,
+          u.`create_time`,
+          u.`update_time`,
+          r.`role_id`,
+          r.`name`,
+          r.`nameZh`
+        FROM
+          t_user u
+          LEFT JOIN t_user_role ur
+            ON u.`user_id` = ur.`userid`
+          LEFT JOIN t_role r
+            ON ur.`roleid` = r.`role_id`
+        WHERE u.`username` = #{username}
+    </select>
+
+    <select id="findPermsListByRoleId" parameterType="String" resultType="TPerms">
+        SELECT
+          p.`perm_id`,
+          p.`perm_name`,
+          r.`role_id`,
+          r.`name`,
+          r.`nameZh`
+        FROM
+          t_role r
+          LEFT JOIN t_role_perms rp
+            ON r.`role_id` = rp.`roleid`
+          LEFT JOIN t_perms p
+            ON rp.`permid` = p.`perm_id`
+        WHERE r.`role_id` = #{id}
+    </select>
+
+</mapper>

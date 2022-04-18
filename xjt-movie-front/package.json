@@ -1,0 +1,36 @@
+{
+  "name": "my-movie-front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "core-js": "^3.6.5",
+    "echarts": "^5.1.2",
+    "element-ui": "^2.15.1",
+    "hover.css": "^2.3.2",
+    "less-loader": "^6.0.0",
+    "qs": "^6.5.2",
+    "vue": "^2.6.11",
+    "vue-echart": "^1.0.5",
+    "vue-particles": "^1.0.9",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "less": "^4.1.1",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
