@@ -8,6 +8,9 @@ Vue.config.productionTip = false;
 import * as echarts from "echarts"
 Vue.prototype.$echarts = echarts;
 
+//router权限控制
+import './router/index.js'
+
 /*使用element-ui*/
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
