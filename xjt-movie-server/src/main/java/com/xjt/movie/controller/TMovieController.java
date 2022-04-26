@@ -56,9 +56,9 @@ public class TMovieController {
     }
 
     @GetMapping("/getComments")
-    public RespBean getMovieComments(@RequestParam(value = "id") Integer id,
+    public RespBean getMovieComments(@RequestParam(value = "movieId") Integer movieId,
                                      @RequestParam(value = "num") Integer num) {
-        return this.tMovieService.getMovieComments(id,num);
+        return this.tMovieService.getMovieComments(movieId,num);
     }
 
 

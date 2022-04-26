@@ -41,6 +41,10 @@ Vue.prototype.$postRequest = $postRequest;
 import {myMixin} from "@/mixins/mixin.js"
 Vue.mixin(myMixin);
 
+
+import Moment from 'moment'
+Vue.prototype.$moment = Moment;
+
 /*定义常量*/
 import global from "@/utils/global.js"
 Vue.prototype.$const = global;

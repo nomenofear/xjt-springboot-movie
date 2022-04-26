@@ -68,9 +68,9 @@ public class TMovieServiceImpl implements TMovieService {
     }
 
     @Override
-    public RespBean getMovieComments(Integer id, Integer num) {
+    public RespBean getMovieComments(Integer movieId, Integer num) {
         QueryWrapper<TMovieComment> wrapper = new QueryWrapper<TMovieComment>();
-        wrapper.eq("movie_id", id);
+        wrapper.eq("movie_id", movieId);
         if(!ObjectUtils.isEmpty(num)){
             wrapper.last("limit "+num);
         }

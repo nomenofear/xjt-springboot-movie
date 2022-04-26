@@ -36,7 +36,7 @@
         methods:{
             goto(){
                 console.log(this.movieItem);
-                this.$router.push('/film/'+ this.movieItem.movieId);
+                this.$router.push('/cinemas?movieId='+ this.movieItem.movieId);
             }
         },
     }

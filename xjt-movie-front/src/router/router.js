@@ -49,6 +49,12 @@ const routes = [
         meta: { title: '电影' }
       },
       {
+        path: '/cinemas/:movieId',
+        name: '购票',
+        component: import('@/views/index/comps/MovieBuyTicket.vue'),
+        meta: { title: '上映电影购票' }
+      },
+      {
         path: '/film/:id',
         name: '电影详情页',
         component: FilmDetail,

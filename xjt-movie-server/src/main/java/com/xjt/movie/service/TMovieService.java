@@ -7,5 +7,5 @@ public interface TMovieService {
 
     RespBean getMovieById(Integer id);
 
-    RespBean getMovieComments(Integer id, Integer num);
+    RespBean getMovieComments(Integer movieId, Integer num);
 }

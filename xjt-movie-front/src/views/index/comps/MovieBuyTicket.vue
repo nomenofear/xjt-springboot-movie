@@ -75,66 +75,22 @@
         <div slot="left">观众评价</div>
       </nav-bar>
       <div class="comments-section">
-        <div class="all-comments-container" style="border-left: 2px solid skyblue;padding-left: 10px;">
-          <div v-for="(item1,index1) in allComments" :key="index1">
-            <!--父评论-->
-            <div class="my-marginTop20">
-              <el-row :gutter="15" type="flex">
-                <el-col style="width: 120px;">
-                  <div>
-                    <el-image
-                      class="my-border"
-                      style="width: 90px; height: 90px;border-radius: 50%;"
-                      :src="item1.avatar | filterImgUrl(that)">
-                    </el-image>
-                  </div>
-                </el-col>
-                <el-col :span="20">
-                  <div style=" width: 100%;">
-                    <p style="font-size: 16px;line-height: 30px;font-weight:bold;">{{item1.username}}</p>
-                    <p style="font-size: 13px;line-height: 30px;color: lightskyblue;">{{item1.content}}</p>
-                    <div style="font-size: 10px;font-weight: lighter;">
-                      <span style="line-height: 30px;"> {{item1.create_time|filterFormatDateTime(that)}}</span>
-                      <span style="margin-left: 10px;line-height: 30px;" @click="handelReplyBtn(item1)">
-														<el-link style="font-size: 5px;" :underline="false">回复</el-link>
-													</span>
-                    </div>
-                  </div>
-                </el-col>
-              </el-row>
+        <div class="comment-item" v-for="(comment,index) in filmCommentList" :key="index">
+          <div class="comment-header">
+            <div class="audience">
+              <i class="el-icon-user-solid"></i>
+              {{comment.audience}} 看过
             </div>
-
-            <!--子评论-->
-            <div class="second-comments">
-              <div v-for="(item2,index2) in item1.replyComments" :key=index2
-                   style="margin-top: 16px;margin-left: 120px;">
-                <el-row :gutter="15" type="flex">
-                  <el-col style="width: 100px">
-                    <div style="padding-left: 10px;">
-                      <el-image
-                        style="width: 80px; height: 80px;border-radius: 50%;border: 1px solid #ddd;"
-                        :src="item2.avatar | filterImgUrl(that)">
-                      </el-image>
-                    </div>
-                  </el-col>
-                  <el-col :span="20" style="background-color: #eee;margin-left: 10px;padding: 5px;">
-                    <div style=" width: 100%;">
-                      <span style="font-size: 16px;line-height: 26px;font-weight:bold;">{{item2.username}}</span>
-                      <span
-                        style="font-size: 14px;line-height: 26px;font-weight: normal;color: #007eff;margin-left: 10px;">@{{item2.parent_comment_nickname}}</span>
-                      <p style="font-size: 12px;line-height: 26px;">{{item2.content}}</p>
-                    </div>
-                    <div>
-                      <span style="font-size: 10px;font-weight: normal;line-height: 26px;">  {{item2.create_time|filterFormatDateTime(that)}}</span>
-                      <span style="font-size: 13px;line-height: 26px;margin-left: 10px;"
-                            @click="handelReplyBtn(item2)">
-														<el-link style="font-size: 5px;line-height: 26px;">回复</el-link>
-													</span>
-                    </div>
-                  </el-col>
-                </el-row>
-              </div>
+            <div class="rate">
+              <my-rate :score="parseFloat(comment.rate)" :disabled="true"/>
             </div>
+            <div class="time">
+              <i class="el-icon-date"></i>
+              {{comment.createTime.toString().slice(0,10)}}
+            </div>
+          </div>
+          <div class="comment-content">
+            {{comment.content}}
           </div>
         </div>
       </div>
@@ -142,16 +98,7 @@
       <nav-bar class="navBar">
         <div slot="left">留下评价</div>
       </nav-bar>
-      <div class="comment-container">
-
-        <div class="editor-html" id="wangeditor" v-html="editorContent">
-
-        </div>
-
-        <div class="postComment">
-          <el-button type="success" @click="postCommentHandle">提交评价</el-button>
-        </div>
-      </div>
+      <div class="editor-html" id="wangeditor" v-html="editorContent"></div>
     </div>
   </div>
 </template>
@@ -175,15 +122,10 @@
 
         commentsNum: 10,
 
-        weditor:null,
         editorContent:"",
-
-        allComments: [],
-        currentReplyParentId: "",		//对当前评论id 进行回复
       }
     },
     methods: {
-      //初始化wangEditor编辑器
       initWangEditor() {
         const editor = new WEditor("#wangeditor");
         // 设置编辑区域高度为 300px
@@ -208,19 +150,11 @@
           '#0000ff',
           '#ffffff',
         ]
+        // 挂载highlight插件
+        editor.highlight = hljs
 
         editor.create();
-        this.weditor = editor;
-      },
-
-      //电影的所有评论
-      initFilmAllComments(){
-        this.$getRequest("/comment/getAllByMoiveId?movie_id=" + this.filmInfo.movieId).then(res => {
-          console.log(res);
-          if (res.status === 200) {
-            this.allComments.push(...res.obj);
-          }
-        })
+        this.$editor = editor;
       },
 
       initFilmData() {
@@ -231,41 +165,24 @@
           }
         })
       },
-
-      postCommentHandle(){
-        let content = this.weditor.txt.html()
-        console.log(content);
-      },
-
-      handelReplyBtn(item) {
-        // let login_user = this.$store.state.login_user;
-        // if (Object.keys(login_user).length > 0) {
-        //   this.inputCommentDialogVisible = true;
-        //   //当前评论id
-        //   if (item === '-1') {
-        //     //对博客评论
-        //     this.currentReplyParentId = "-1";
-        //   } else {
-        //     //回复
-        //     this.currentReplyParentId = item.id;
-        //   }
-        // } else {
-        //   this.$message.warning("尚未登录，请先去登录！");
-        //   this.$router.push("/toLogin");
-        // }
+      initFilmComment() {
+        this.$getRequest("/movie/getComments?id=" + this.filmInfo.movieId + "&num=" + this.commentsNum).then(res => {
+          console.log(res);
+          if (res.status === 200) {
+            this.filmCommentList.push(...res.obj);
+          }
+        })
       },
     },
     created() {
       console.log(this.$route.params.id);
       this.filmInfo.movieId = this.$route.params.id;
 
-      this.$nextTick(() =>{
-        this.initWangEditor();
-      })
+      this.initWangEditor();
 
       this.initFilmData();
 
-      this.initFilmAllComments();
+      this.initFilmComment();
     }
   }
 </script>
@@ -361,11 +278,6 @@
         .comment-content {
           line-height: 30px;
         }
-      }
-
-      .comment-container{
-        margin-top: 10px;
-        width: 80%;
       }
     }
   }

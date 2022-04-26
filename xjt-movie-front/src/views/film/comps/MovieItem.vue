@@ -9,7 +9,7 @@
         </div>
         <div class="info">
             <div class="title-score" style="display: flex;">
-                <div style="font-size: 20px;line-height: 50px;flex: 1;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{movie.movieCnName}}</div>
+                <div @click="$router.push('/film/'+movie.movieId)" style="font-size: 20px;line-height: 50px;flex: 1;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{movie.movieCnName}}</div>
                 <div style="font-size: 18px;line-height: 50px;color: #ffb400;width: 24px;">{{movie.movieScore}}</div>
             </div>
             <div class="type" style="line-height: 32px;font-size: 16px;height: 32px;color: darkgrey;">类型：{{movie.movieCategory}}</div>

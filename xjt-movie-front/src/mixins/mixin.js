@@ -34,7 +34,10 @@ export const myMixin = {
             }else{
                 return that.$store.state.HOST + img_url;
             }
-        }
+        },
+      filterFormatDateTime(val, that) {
+        return that.$moment(val).format("YYYY-MM-DD HH:mm:ss");
+      },
     }
 };
 
