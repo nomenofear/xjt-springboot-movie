@@ -27,7 +27,7 @@
 
 ### 电影详情页评价回复
 
-![1650987441133](typora-assets/1650987441133.png)
+![image.png](https://img01.sogoucdn.com/app/a/100520146/9df12cbb718e5c606debe68a85e545f9)
 
 ## 项目技术栈
 
