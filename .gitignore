@@ -14,3 +14,11 @@ gen
 **/cachedata
 **/target
 **/*.iml
+
+**/node_modules
+
+**/.gitignore
+
+/db
+
+
